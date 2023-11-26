@@ -1,6 +1,7 @@
 from Insurance.logger import logging
 from Insurance.exception import InsuranceException
 import os,sys
+from Insurance.utils import get_collection_as_dataframe
 
 def test_logger_and_exception():
     try:
@@ -16,7 +17,10 @@ def test_logger_and_exception():
 
 if __name__=="__main__":
     try:
-        test_logger_and_exception()
+        database_name="INSURANCE"
+        collection_name="INSURANCE_PROJECT"
+        #test_logger_and_exception()
+        get_collection_as_dataframe(database_name=database_name,collection_name=collection_name)
         
     except Exception as e:
         print(e)
