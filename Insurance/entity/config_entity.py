@@ -9,6 +9,9 @@ TRAIN_FILE_NAME="train.csv"
 TEST_FILE_NAME="test.csv"
 
 class TrainingPipelineConfig:
+    """
+    This class will create training pipeline folder
+    """
     def __init__(self):
         try:
             self.artifact_dir=os.path.join(os.getcwd(),'artifact',f"{datetime.now().strftime('%m%d%Y-%H%M%S')}")
@@ -16,6 +19,10 @@ class TrainingPipelineConfig:
             raise InsuranceException(e,sys)
         
 class DataIngestionConfig:
+    """
+    This will create the row file or feature store file ,train file and test file paths.
+
+    """
     def __init__(self,training_pipeline_config:TrainingPipelineConfig):
         try:
             self.database_name="INSURANCE"
@@ -25,6 +32,7 @@ class DataIngestionConfig:
             self.feature_store_file_path=os.path.join(self.data_ingestion_dir,"feature_Store",FILE_NAME)
             self.train_file_path=os.path.join(self.data_ingestion_dir,"dataset",TRAIN_FILE_NAME)
             self.test_file_path=os.path.join(self.data_ingestion_dir,"dataset",TEST_FILE_NAME)
+            self.test_size=0.2
 
         except Exception as e:
             raise InsuranceException(e,sys)
