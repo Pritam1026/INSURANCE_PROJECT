@@ -4,6 +4,7 @@ from Insurance.exception import InsuranceException
 from Insurance.config import mongo_client
 import os,sys
 import numpy as np
+import yaml
 
 def get_collection_as_dataframe(database_name:str,collection_name:str)->pd.DataFrame:
     """
@@ -28,3 +29,46 @@ def get_collection_as_dataframe(database_name:str,collection_name:str)->pd.DataF
         raise InsuranceException(e, sys)
     
 
+def convert_columns_float(df:pd.DataFrame,exclude_column:list)->pd.DataFrame:
+    """
+    Description:This function will convert the numerical columns of the datframe to float.
+    =========================================================
+    params:
+    df(pd.DataFrame):Dataframe whose column we want to convert
+    exclude_column(list): The list of columns that we donot want to convert.
+    =========================================================
+    return:pandas dataframe with converted columns.
+
+    """
+    try:
+        for column in df.columns:
+            if column not in exclude_column:
+                if df[column].dtype!='O':
+                    df[column]=df[column].astype(float)
+        
+        return df
+    
+    except Exception as e:
+        raise InsuranceException(e,sys)
+    
+
+def write_yaml(file_path:str,data:dict):
+    """
+    Description:This function return the yaml format report that is present in the dictionary
+    =========================================================
+    params:
+    file_path(str):file path of the report where it is to be dumped
+    data(dict):Data in dict format.
+    =========================================================
+    """
+    try:
+        #file path where report is to be saved
+        report_file_dir=os.path.dirname(file_path)
+        #MAking a directory where file is present
+        os.makedirs(report_file_dir,exist_ok=True)
+        #Dumping the file
+        with open(file_path, "w") as file_obj:
+            yaml.dump(data,file_obj)
+
+    except Exception as e:
+        raise InsuranceException(e,sys)
