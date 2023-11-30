@@ -5,6 +5,7 @@ from Insurance.config import mongo_client
 import os,sys
 import numpy as np
 import yaml
+import dill
 
 def get_collection_as_dataframe(database_name:str,collection_name:str)->pd.DataFrame:
     """
@@ -72,3 +73,40 @@ def write_yaml(file_path:str,data:dict):
 
     except Exception as e:
         raise InsuranceException(e,sys)
+    
+def save_object(file_path:str,obj:object)->None:
+    """saves the object in binary format"""
+    try:
+        obj_dir=os.path.dirname(file_path)
+        os.makedirs(obj_dir,exist_ok=True)
+
+        with open(file_path,"wb") as file_obj:
+            dill.dump(obj,file_obj)
+
+    except Exception as e:
+        raise InsuranceException(e,sys)
+    
+def load_object(file_path:str)->object:
+    """Loads the binary object"""
+    try:
+        if not os.path.exists(file_path):
+            raise Exception(f"The file :{file_path} is not exists")
+        
+        with open(file_path,"rb") as file_object:
+            return dill.load(file_object)
+
+    except Exception as e:
+        raise InsuranceException(e,sys)
+    
+def save_numpy_array_data(file_path:str,array:np.array):
+    try:
+        file_dir=os.path.dirname(file_path)
+        os.makedirs(file_dir,exist_ok=True)
+        with open(file_path,"wb") as file_obj:
+            np.savez(file_path,array)
+
+    except Exception as e:
+        raise InsuranceException(e,sys)
+
+
+        
