@@ -103,8 +103,16 @@ def save_numpy_array_data(file_path:str,array:np.array):
         file_dir=os.path.dirname(file_path)
         os.makedirs(file_dir,exist_ok=True)
         with open(file_path,"wb") as file_obj:
-            np.savez(file_path,array)
+            np.save(file_path,array)
 
+    except Exception as e:
+        raise InsuranceException(e,sys)
+    
+def load_numpy_array_data(file_path:str):
+    try:
+        with open(file_path,"rb") as file_obj:
+            return np.load(file_obj)
+        
     except Exception as e:
         raise InsuranceException(e,sys)
 
