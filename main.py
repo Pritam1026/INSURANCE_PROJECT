@@ -7,6 +7,7 @@ from Insurance.componets.data_ingestion import DataIngestion
 from Insurance.componets.data_validation import DataValidation
 from Insurance.componets.data_transformation import DataTransformation
 from Insurance.componets.model_trainer import ModelTrainer
+from Insurance.componets.model_evaluation import ModelEvaluation
 
 
 if __name__=="__main__":
@@ -49,8 +50,17 @@ if __name__=="__main__":
         model_trainer_artifact=model_trainer.initiate_model_trainer()
         logging.info("Model training done")
 
-
+        #Model Evaluation
+        logging.info("model evaluation has started")
+        model_eval_config=config_entity.ModelEvaluationConfig(training_pipeline_config=training_pipeline_config)
+        model_eval=ModelEvaluation(model_eval_config=model_eval_config,
+                                   data_ingestion_artifact=data_ingestion_artifact,
+                                   data_transformation_artifact=data_transformation_artifact,
+                                   model_trainer_artifact=model_trainer_artifact)
+        model_eval_artifact=model_eval.initiate_model_evaluation()
+        logging.info("model evaluation ends")
 
     except Exception as e:
         raise InsuranceException(e,sys)
+
     
