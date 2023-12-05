@@ -1,7 +1,9 @@
 import os
+from glob import glob
 from typing import Optional
 from Insurance.exception import InsuranceException
 from Insurance.entity.config_entity import TRANSFORMER_OBJECT_FILE_NAME,MODEL_FILE_NAME,TARGET_ENCODER_OBJECT_FILE_NAME
+from Insurance.logger import logging
 
 class ModelResolver:
     def __init__(self,model_registry:str="saved_models",
@@ -18,7 +20,7 @@ class ModelResolver:
     def get_latest_dir_path(self)->Optional[str]:
         try:
             dir_names=os.listdir(self.model_registry)
-            if len(dir_names)==0:
+            if len(dir_names) == 0:
                 return None
             dir_name=list(map(int,dir_names))
             latest_dir_name=max(dir_names)
@@ -40,22 +42,20 @@ class ModelResolver:
     def get_latest_transformer_path(self):
         try:
             latest_dir=self.get_latest_dir_path()
+            logging.info(f"latest_dir:{latest_dir}")
             if latest_dir is None:
-                raise Exception("Transform data is not available")
-
+                raise Exception(f"Transformer is not available")
             return os.path.join(latest_dir,self.transformer_dir_name,TRANSFORMER_OBJECT_FILE_NAME)
-
         except Exception as e:
-            raise e
+            raise e 
         
-    def get_latest_target_encoder_path(self):
+    def get_latest_target_encoder_path(self)->str:
         try:
-            latest_dir=self.get_latest_dir_path()
+            latest_dir = self.get_latest_dir_path()
             if latest_dir is None:
-                raise Exception("Target encoder data is not available")
-
+                logging.info(f"{latest_dir}")
+                raise Exception(f"Target encoder is not available")
             return os.path.join(latest_dir,self.target_encoder_dir_name,TARGET_ENCODER_OBJECT_FILE_NAME)
-
         except Exception as e:
             raise e
 
@@ -91,11 +91,9 @@ class ModelResolver:
         try:
             latest_dir=self.get_latest_save_dir_path()
             return os.path.join(latest_dir,self.target_encoder_dir_name,TARGET_ENCODER_OBJECT_FILE_NAME)
-
+        
         except Exception as e:
             raise e
-        
-
     
 
 

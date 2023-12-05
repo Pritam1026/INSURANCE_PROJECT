@@ -1,0 +1,45 @@
+data_drift_within_test_dataset:
+  age:
+    p_values: 0.9999999999965706
+    same_distribution: true
+  bmi:
+    p_values: 0.999988146937478
+    same_distribution: true
+  children:
+    p_values: 0.9999999999751631
+    same_distribution: true
+  expenses:
+    p_values: 0.9999999999999942
+    same_distribution: true
+  region:
+    p_values: 1.0
+    same_distribution: true
+  sex:
+    p_values: 1.0
+    same_distribution: true
+  smoker:
+    p_values: 1.0
+    same_distribution: true
+data_drift_within_train_dataset:
+  age:
+    p_values: 0.9999999999965706
+    same_distribution: true
+  bmi:
+    p_values: 0.999988146937478
+    same_distribution: true
+  children:
+    p_values: 0.9999999999751631
+    same_distribution: true
+  expenses:
+    p_values: 0.9999999999999942
+    same_distribution: true
+  region:
+    p_values: 1.0
+    same_distribution: true
+  sex:
+    p_values: 1.0
+    same_distribution: true
+  smoker:
+    p_values: 1.0
+    same_distribution: true
+missing_values_in_base_dataset: []
