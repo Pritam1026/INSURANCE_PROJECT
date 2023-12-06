@@ -16,5 +16,6 @@ scikit-learn
 apache-airflow
 python-dotenv
 pymongo
+altair==4.0
 
 #-e .

@@ -74,9 +74,10 @@ class ModelEvaluation:
             input_feature_names=list(prev_transformer.feature_names_in_)
             for i in input_feature_names:
                 if test_df[i].dtypes=='O':
-                    test_df[i]=prev_target_encoder.transform(test_df[i])
+                    test_df[i]=prev_target_encoder.fit_transform(test_df[i])
             input_arr=prev_transformer.transform(test_df[input_feature_names])
             y_pred=prev_model.predict(input_arr)
+            print(f"Prediction using previous model: {y_pred[:5]}")
             prev_model_score=r2_score(y_true=y_true,y_pred=y_pred)
             logging.info(f"Previous model score is {prev_model_score}")
 
@@ -88,6 +89,8 @@ class ModelEvaluation:
                     test_df[i]=current_target_encoder.transform(test_df[i])
             input_arr=current_transformer.transform(test_df[input_feature_names])
             y_pred=current_model.predict(input_arr)
+            
+            print(f"Prediction using trained model: {y_pred[:5]}")
             current_model_score=r2_score(y_true=y_true,y_pred=y_pred)
             logging.info(f"current model score is {current_model_score}")
 
